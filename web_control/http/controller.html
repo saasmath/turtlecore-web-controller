@@ -1,0 +1,50 @@
+<html>
+  <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
+    <style type="text/css">
+			img {width: 100%}
+      #stream { height: 49%; }
+      .button_section { height: 49%; }
+      button { border: solid 1px; font-size:250%; }
+      .button_section:hover * { cursor: pointer; cursor: hand; }
+      .button_section>* { height: 100%; display: inline-block; padding: 0px; }
+      .button_horz { height: 33%; width: 25%; }
+      .button_vert { height: 100%; width: 49%; }
+      .button_vert>button { height: 33%; width:100%; }
+    </style>
+    <script src="$$_JQUERY_$$" type="text/javascript"></script>
+		<script type="text/javascript">
+			vert_speed=0;
+			horz_speed=0;
+			function addSpeed(vert, horz) {
+				vert_speed+=vert;
+				horz_speed+=horz;
+				sendSpeeds();
+			}
+			function setSpeed(vert, horz) {
+				vert_speed=vert;
+				horz_speed=horz;
+				sendSpeeds();
+			}
+			function sendSpeeds() {
+				jQuery.get('?drive='+vert_speed+'&turn='+horz_speed);
+			}
+			$(document).ready(function() {
+				$('#stream').html('<img id="stream-container" src="http://$$_IP_$$:8080/">');
+				$('#but_left').click(function(e) {addSpeed(0, 1)});
+				$('#but_right').click(function(e) {addSpeed(0, -1)});
+				$('#but_up').click(function(e) {addSpeed(1, 0)});
+				$('#but_down').click(function(e) {addSpeed(-1, 0)});
+				$('#but_stop').click(function(e) {setSpeed(0, 0)});
+			});
+		</script>
+  </head>
+  <body>
+    <div id="stream" style="">Loading Stream...</div>
+    <div class="button_section">
+      <button id="but_left" class="button_horz">←</button>
+      <div class="button_vert"><button id="but_up">↑</button><button id="but_stop">Stop</button><button id="but_down">↓</button></div>
+      <button id="but_right" class="button_horz">→</button>
+    </div>
+  </body>
+</html>
